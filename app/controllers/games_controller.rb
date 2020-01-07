@@ -18,12 +18,11 @@ class GamesController < ApplicationController
       @game.destroy
     end
 
-
-    #game logic??
-
-    def startGame
+    def available
+      available_games = []
+      Games.where(number_of_players: 1).find_each do |game|
+        available_games.push(game)
+      end
+      return available_games
     end
-
-    def playerMoved
-    end 
 end
