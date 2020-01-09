@@ -2,7 +2,7 @@ class Users::OmniauthController < ApplicationController
 
 # facebook callback
 def facebook
-  @user = User.create_from_provider_data(request.env['omniauth.auth'])
+  @user = User.create_from_facebook_data(request.env['omniauth.auth'])
   if @user.persisted?
     sign_in_and_redirect @user
     set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
@@ -14,7 +14,7 @@ end
 
 # github callback
 def github
-  @user = User.create_from_provider_data(request.env['omniauth.auth'])
+  @user = User.create_from_github_data(request.env['omniauth.auth'])
   if @user.persisted?
     sign_in_and_redirect @user
     set_flash_message(:notice, :success, kind: 'Github') if is_navigational_format?
@@ -26,7 +26,7 @@ end
 
 # google callback
 def google_oauth2
-  @user = User.create_from_provider_data(request.env['omniauth.auth'])
+  @user = User.create_from_google_data(request.env['omniauth.auth'])
   if @user.persisted?
     sign_in_and_redirect @user
     set_flash_message(:notice, :success, kind: 'Google') if is_navigational_format?
@@ -38,7 +38,7 @@ end
 
 # twitter callback
 def twitter
-  @user = User.create_from_provider_data(request.env['omniauth.auth'])
+  @user = User.create_from_twitter_data(request.env['omniauth.auth'])
   if @user.persisted?
     sign_in_and_redirect @user
     set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?

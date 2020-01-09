@@ -1,2 +1,2 @@
-class Pawn < ChessPiece
+class Pawn < Piece
 end
