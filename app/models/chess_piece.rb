@@ -1,2 +1,0 @@
-class ChessPiece < ApplicationRecord
-end

@@ -10,11 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_01_08_025820) do
+=======
+ActiveRecord::Schema.define(version: 2020_01_07_020459) do
+>>>>>>> 44318562e62ef5edb98d0fc0c5381a31c42b6db2
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
   create_table "chess_pieces", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -27,6 +32,26 @@ ActiveRecord::Schema.define(version: 2020_01_08_025820) do
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+=======
+  create_table "games", force: :cascade do |t|
+    t.string "name"
+    t.integer "white_player_id"
+    t.integer "black_player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["white_player_id", "black_player_id"], name: "index_games_on_white_player_id_and_black_player_id"
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.integer "x_position"
+    t.integer "y_position"
+    t.string "type"
+    t.integer "user_id"
+    t.integer "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "game_id"], name: "index_pieces_on_user_id_and_game_id"
+>>>>>>> 44318562e62ef5edb98d0fc0c5381a31c42b6db2
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,8 +62,17 @@ ActiveRecord::Schema.define(version: 2020_01_08_025820) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
     t.string "provider", limit: 50, default: "", null: false
     t.string "uid", limit: 500, default: "", null: false
+=======
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "name"
+>>>>>>> 44318562e62ef5edb98d0fc0c5381a31c42b6db2
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
