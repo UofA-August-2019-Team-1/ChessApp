@@ -2,6 +2,10 @@ class GamesController < ApplicationController
 
     before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
+    def index
+      @games = Game.order("name")
+    end
+
     def create
       @game = Game.new()
     end
