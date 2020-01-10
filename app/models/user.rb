@@ -13,8 +13,9 @@ class User < ApplicationRecord
       user.skip_confirmation!
     end
   end
- 
+
   has_many :games
   has_many :pieces
 
 end
+
