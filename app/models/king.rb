@@ -1,2 +1,2 @@
-class King < ChessPiece
+class King < Piece
 end
