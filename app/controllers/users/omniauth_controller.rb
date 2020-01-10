@@ -8,7 +8,7 @@ def facebook
     set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
   else
     flash[:error] = 'There was a problem signing you in through Facebook. Please register or try signing in later.'
-    redirect_to root
+    redirect_to root_path
   end 
 end
 
@@ -20,7 +20,7 @@ def github
     set_flash_message(:notice, :success, kind: 'Github') if is_navigational_format?
   else
     flash[:error] = 'There was a problem signing you in through Github. Please register or try signing in later.'
-    redirect_to root
+    redirect_to root_path
   end
 end
 
@@ -32,7 +32,7 @@ def google_oauth2
     set_flash_message(:notice, :success, kind: 'Google') if is_navigational_format?
   else
     flash[:error] = 'There was a problem signing you in through Google. Please register or try signing in later.'
-    redirect_to root
+    redirect_to root_path
   end 
 end
 
@@ -44,7 +44,7 @@ def twitter
     set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
   else
     flash[:error] = 'There was a problem signing you in through Twitter. Please register or try signing in later.'
-    redirect_to root
+    redirect_to root_path
   end 
 end
 
