@@ -1,2 +1,2 @@
-class Knight < ChessPiece
+class Knight < Piece
 end
