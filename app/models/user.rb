@@ -15,9 +15,12 @@ class User < ApplicationRecord
   end
   has_many :games
   has_many :pieces
+<<<<<<< HEAD
 
   validates :username,
   :presence => true,
   :uniqueness => {
   :case_sensitive => false
+=======
+>>>>>>> 6aec77d3be112391c1bcb05fe58eea8d901dc95a
 end
