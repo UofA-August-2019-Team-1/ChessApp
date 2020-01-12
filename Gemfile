@@ -74,6 +74,7 @@ gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
 # Use ActiveRecord Sessions
 gem 'activerecord-session_store', '~> 1.0'
 gem 'rubocop', '~> 0.78.0', require: false
+gem 'simple_form'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'

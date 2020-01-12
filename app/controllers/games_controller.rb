@@ -1,11 +1,10 @@
 class GamesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+    # before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
     def index
       @games = Game.all
-      puts 'hello'
-      puts @games
+      # @games = games_available
     end
 
     def new
@@ -14,10 +13,12 @@ class GamesController < ApplicationController
 
     def create
       # @game = Game.new
+      @game = Game.create(:name => 'My game')
+      redirect_to root_path
     end
 
-    def read
-      return @game
+    def show
+      @game = Game.find(params[:id])
     end
 
     def update(game)
@@ -28,9 +29,11 @@ class GamesController < ApplicationController
       @game.destroy
     end
 
-    def available
+    private
+
+    def games_available
       available_games = []
-      Games.where(number_of_players: 1).find_each do |game|
+      Games.where(black_player_id: null).find_each do |game|
         available_games.push(game)
       end
       return available_games
