@@ -3,11 +3,17 @@ class GamesController < ApplicationController
     before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
     def index
-      @games = Game.order("name")
+      @games = Game.all
+      puts 'hello'
+      puts @games
+    end
+
+    def new
+      @game = Game.new
     end
 
     def create
-      @game = Game.new()
+      # @game = Game.new
     end
 
     def read
