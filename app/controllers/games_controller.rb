@@ -12,8 +12,7 @@ class GamesController < ApplicationController
     end
 
     def create
-      # @game = Game.new
-      @game = Game.create(:name => 'My game')
+      @game = Game.create(game_params)
       redirect_to root_path
     end
 
@@ -30,6 +29,10 @@ class GamesController < ApplicationController
     end
 
     private
+
+    def game_params
+      params.require(:game).permit(:name)
+    end
 
     def games_available
       available_games = []
