@@ -1,6 +1,5 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-<<<<<<< HEAD
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise  :database_authenticatable, :registerable,
         :recoverable, :rememberable, :trackable, :validatable,
@@ -14,12 +13,9 @@ class User < ApplicationRecord
       user.skip_confirmation!
     end
   end
-end
-=======
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  end
+
   has_many :games
   has_many :pieces
 end
->>>>>>> 44318562e62ef5edb98d0fc0c5381a31c42b6db2
+
