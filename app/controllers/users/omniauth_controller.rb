@@ -9,7 +9,7 @@ def facebook
   else
     flash[:error] = 'There was a problem signing you in through Facebook. Please register or try signing in later.'
     redirect_to root_path
-  end 
+  end
 end
 
 # github callback
@@ -33,7 +33,7 @@ def google_oauth2
   else
     flash[:error] = 'There was a problem signing you in through Google. Please register or try signing in later.'
     redirect_to root_path
-  end 
+  end
 end
 
 # twitter callback
@@ -45,11 +45,11 @@ def twitter
   else
     flash[:error] = 'There was a problem signing you in through Twitter. Please register or try signing in later.'
     redirect_to root_path
-  end 
+  end
 end
 
 def failure
-  flash[:error] = 'There was a problem signing you in. Please register or try signing in later.' 
+  flash[:error] = 'There was a problem signing you in. Please register or try signing in later.'
   redirect_to new_user_registration_url
 end
 
