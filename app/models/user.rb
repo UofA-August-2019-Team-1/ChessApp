@@ -6,7 +6,7 @@ class User < ApplicationRecord
         :confirmable, :lockable, :timeoutable,
         :omniauthable, omniauth_providers: [:facebook, :github, :google_oauth2, :twitter]
 
-  has_many :games
+  # has_many :games
   has_many :pieces
 
   def self.create_from_provider_data(provider_data)
