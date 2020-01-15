@@ -30,7 +30,7 @@
         </ul>
 
         <ul class="navbar-nav">
-          <% if user_signed_in? %>
+          <if user_signed_in?>
             <li class="nav-item">
               <%= link_to 'My Profile', user_path(current_user), class: 'nav-link' %>
             </li>
