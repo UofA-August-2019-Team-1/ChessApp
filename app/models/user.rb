@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise  :database_authenticatable, :registerable,
         :recoverable, :rememberable, :trackable, :validatable,
-        :confirmable, :lockable, :timeoutable,
+        :lockable, :timeoutable,
         :omniauthable, omniauth_providers: [:facebook, :github, :google_oauth2, :twitter]
 
   has_many :games
@@ -14,7 +14,6 @@ class User < ApplicationRecord
       user.email = provider_data.info.email
       user.password = Devise.friendly_token[0, 20]
       user.skip_confirmation!
-      user.save!
     end
   end
 
