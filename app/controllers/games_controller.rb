@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+    # before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
     def index
       @games = Game.all
@@ -14,6 +14,15 @@ class GamesController < ApplicationController
     def create
       @game = Game.create(game_params)
       redirect_to root_path
+
+      #will use when user can be cretaed
+
+      # @game = current_user.games.create(game_params)
+      # if @game.valid?
+      #   redirect_to root_path
+      # else
+      #   render :new, status: :unprocessable_entity
+      # end
     end
 
     def show
