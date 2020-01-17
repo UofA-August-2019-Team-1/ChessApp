@@ -1,7 +1,7 @@
 
 <html>
   <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <title>  Welcome to the Game <%= @game.name %>!</title>
     <style type="text/css">
     .chessboard {
@@ -33,6 +33,15 @@
     </style>
   </head>
   <body>
+
+    <h1><%= @game.name %></h1>
+    <div>
+      white player:<%= @game.white_player_id %>
+    </div>
+    <div>
+      black player:<%= @game.black_player_id %>
+    </div>
+
     <div class="chessboard">
       <!-- 1st -->
       <div class="white">&#9820;</div>
