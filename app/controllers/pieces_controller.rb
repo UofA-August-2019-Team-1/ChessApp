@@ -12,7 +12,7 @@ class PiecesController < ApplicationController
       @piece.update_attributes(piece_params.merge(move_number: @piece.move_number + 1))
     end
   end
-    
+
     king_opp = @game.pieces.where(:type =>"King").where.not(:user_id => @game.turn_user_id)[0]
     king_current = @game.pieces.where(:type =>"King").where(:user_id => @game.turn_user_id)[0]
     game_end = false
