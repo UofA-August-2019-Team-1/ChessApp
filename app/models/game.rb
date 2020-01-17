@@ -6,6 +6,4 @@ class Game < ApplicationRecord
 
   has_many :pieces
   has_many :user_games
-  has_many :pieces
-
 end
