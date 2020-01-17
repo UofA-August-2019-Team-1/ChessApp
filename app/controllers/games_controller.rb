@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
-
-    before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :verify_different_user, only:[:join]
 
     def index
       @games = Game.all

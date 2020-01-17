@@ -6,7 +6,8 @@ class User < ApplicationRecord
         :lockable, :timeoutable,
         :omniauthable, omniauth_providers: [:facebook, :github, :google_oauth2, :twitter]
 
-  has_many :games
+  has_many :user_games
+  has_many :games, through: :user_games
   has_many :pieces
 
   def self.create_from_provider_data(provider_data)
@@ -16,5 +17,11 @@ class User < ApplicationRecord
       user.skip_confirmation!
     end
   end
+
+  validates :username,
+  :presence => true,
+  :uniqueness => {
+    :case_sensitive => false
+  }
 
 end
