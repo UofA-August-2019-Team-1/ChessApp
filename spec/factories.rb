@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :user_game do
+    
+  end
+
   factory :piece do
     
   end

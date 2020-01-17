@@ -3,5 +3,7 @@ class Game < ApplicationRecord
   # belongs_to :black_player, class_name: "User", optional: true
 
   has_many :pieces
-
+  has_many :user_games
+  has_many :pieces
+  
 end
