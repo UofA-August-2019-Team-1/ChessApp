@@ -6,7 +6,7 @@ class User < ApplicationRecord
         :lockable, :timeoutable,
         :omniauthable, omniauth_providers: [:facebook, :github, :google_oauth2, :twitter]
 
-  # has_many :user_games
+  has_many :user_games
   # has_many :games, through: :user_games
   has_many :games
 
@@ -20,10 +20,10 @@ class User < ApplicationRecord
     end
   end
 
-  validates :username,
-  :presence => true,
-  :uniqueness => {
-    :case_sensitive => false
-  }
+  # validates :username,
+  # :presence => true,
+  # :uniqueness => {
+  #   :case_sensitive => false
+  # }
 
 end
