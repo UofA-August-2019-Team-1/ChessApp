@@ -1,7 +1,7 @@
 <h1>Hello World!</h1>
-<h2>Welcome to the future of our Group project!</h2>
+<h2>Welcome to our Group project!</h2>
 <br />
 <h2>Available Games</h2>
 <% @games.each do |game| %>
-  <p><%= link_to game.name, game_path(game) %></p>
+  <h4><%= link_to game.name, game_path(game) %></h4>
 <% end %>
