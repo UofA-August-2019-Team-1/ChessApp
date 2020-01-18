@@ -36,10 +36,13 @@
 
     <h1><%= @game.name %></h1>
     <div>
-      white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+      Black Player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
     </div>
+    
     <div>
-      black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+    if white_player_id == nil then
+      puts 'White Player: '<%= link_to 'Join Game', game_path(@game), class: 'btn btn-primary btn-lg' %>
+    end
     </div>
 
     <div class="chessboard">

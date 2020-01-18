@@ -11,7 +11,7 @@ class GamesController < ApplicationController
     end
 
     def create
-      @game = current_user.games.create(:name => game_params[:name], :white_player_id => current_user.id)
+      @game = current_user.games.create(:name => game_params[:name], :black_player_id => current_user.id)
       if @game.valid?
         redirect_to game_path(@game)
       else
@@ -27,6 +27,16 @@ class GamesController < ApplicationController
       @game = game
     end
 
+  def join
+    @game = Game.find_by_id(params[:id])
+    @pieces = @game.pieces
+    @pieces.where(user_id:nil).update_all(user_id: current_user.id)
+
+    @game.update_attributes(game_params)
+    @game.users << current_user
+    redirect_to game_path(@game)
+  end
+
     def destroy
       @game.destroy
     end
@@ -39,7 +49,7 @@ class GamesController < ApplicationController
 
     def games_available
       available_games = []
-      Game.where(black_player_id: nil).find_each do |game|
+      Game.where(white_player_id: nil).find_each do |game|
         available_games.push(game)
       end
       return available_games
