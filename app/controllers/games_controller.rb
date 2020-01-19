@@ -48,10 +48,14 @@ class GamesController < ApplicationController
     end
 
     def games_available
+<<<<<<< HEAD
       available_games = []
       Game.where(white_player_id: nil).find_each do |game|
         available_games.push(game)
       end
       return available_games
+=======
+      return Game.where(black_player_id: nil)
+>>>>>>> e2b9b8915c2f00bbc85598d8277b4a113bf7a5ed
     end
 end
