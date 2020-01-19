@@ -38,6 +38,6 @@ class GamesController < ApplicationController
     end
 
     def games_available
-      return Game.where(black_player_id: 'nil')
+      return Game.where(black_player_id: nil)
     end
 end
