@@ -38,10 +38,6 @@ class GamesController < ApplicationController
     end
 
     def games_available
-      available_games = []
-      Game.where(black_player_id: nil).find_each do |game|
-        available_games.push(game)
-      end
-      return available_games
+      return Game.where(black_player_id: 'nil')
     end
 end
