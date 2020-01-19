@@ -12,11 +12,16 @@ class GamesController < ApplicationController
 
     def create
       @game = current_user.games.create(:name => game_params[:name], :white_player_id => current_user.id)
+
+      set_up_board
+
       if @game.valid?
         redirect_to game_path(@game)
       else
         render :new, status: :unprocessable_entity
       end
+
+      @game.pieces.create()
     end
 
     def show
@@ -39,5 +44,26 @@ class GamesController < ApplicationController
 
     def games_available
       return Game.where(black_player_id: nil)
+    end
+
+    def set_up_board
+
+      @game.pieces.create(:x_position => 0, :y_position => 0, :type => 'rook', :user_id current_user.id, :game_id => game_id)
+      @game.pieces.create(:x_position => 1, :y_position => 0, :type => 'knight', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 2, :y_position => 0, :type => 'bishop', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 3, :y_position => 0, :type => 'queen', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 4, :y_position => 0, :type => 'king', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 5, :y_position => 0, :type => 'bishop', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 6, :y_position => 0, :type => 'knight', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 7, :y_position => 0, :type => 'rook', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 0, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 1, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 2, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 3, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 4, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 5, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 6, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+      # @game.pieces.create(:x_position => 7, :y_position => 1, :type => 'pawn', :user_id current_user.id, :game_id => game_id)
+
     end
 end

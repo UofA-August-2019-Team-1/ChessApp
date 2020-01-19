@@ -6,4 +6,21 @@ class Game < ApplicationRecord
 
   has_many :pieces
   # has_many :user_games
+
+  attr_accessor :board
+
+  # def initialize()
+  #   @board = [
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 1, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #     [0, 0, 0, 0, 0, 0, 1, 0],
+  #     [0, 0, 0, 0, 0, 0, 0, 0],
+  #   ]
+  # end
+
 end
