@@ -36,17 +36,15 @@
     </style>
   </head>
   <body>
-
+    <br />
     <h1><%= @game.name %></h1>
     <div>
       Black Player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
     </div>
-    
     <div>
-
-      White Player: <%= link_to 'Join Game', game_path(@game), class: 'btn btn-primary btn-sm' %>
-  
+       White Player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
     </div>
+    <br />
 
     <div class="chessboard">
 
