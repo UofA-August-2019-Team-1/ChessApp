@@ -4,4 +4,8 @@ class Game < ApplicationRecord
 
   has_many :pieces
 
+  def render_pieces_on_board
+    Games::RenderPieces.call(self)
+  end
+
 end
