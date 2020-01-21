@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :verify_different_user, only:[:join]
 
     def index
-      @games = games_available
+      @games_available = Game.where(:white_player_id => nil).where.not(:black_player_id => nil).or (Game.where.not(:white_player_id => nil).where(:black_player_id => nil))
     end
 
     def new
@@ -18,8 +18,6 @@ class GamesController < ApplicationController
       else
         render :new, status: :unprocessable_entity
       end
-
-      @game.pieces.create()
     end
 
     def show
@@ -27,8 +25,9 @@ class GamesController < ApplicationController
       @pieces = @game.pieces
     end
 
-    def update(game)
-      @game = game
+    def update
+      @piece = Piece.find(params[:id])
+      redirect_to game_path(@game)
     end
 
     def destroy
@@ -39,9 +38,5 @@ class GamesController < ApplicationController
 
     def game_params
       params.require(:game).permit(:name)
-    end
-
-    def games_available
-      return Game.where(black_player_id: nil)
     end
 end

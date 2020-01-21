@@ -20,8 +20,7 @@
 
       <div class='<%= color %>'>
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
-          <b> <%= gamepiece.type %> </b>
-           <%= gamepiece.color %>
+          <b><%= link_to gamepiece.type, piece_path(gamepiece), :method => :put %></b>  <%= gamepiece.color %>
         <% end %>
       </div>
 

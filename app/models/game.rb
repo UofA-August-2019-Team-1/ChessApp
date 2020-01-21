@@ -8,7 +8,12 @@ class Game < ApplicationRecord
   # has_many :user_games
   after_create :set_up_board
 
+  attr_accessor :available_squares
+
   def set_up_board
+
+    available_squares = []
+
     # WHITE PIECES
       # Pawns
       (0..7).each do |x|
