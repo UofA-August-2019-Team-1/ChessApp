@@ -1,44 +1,72 @@
 class Game < ApplicationRecord
-  belongs_to :user
-
+  attr_accessor :available_squares
+  
+  # belongs_to :user
   # belongs_to :white_player, class_name: "User"
   # belongs_to :black_player, class_name: "User", optional: true
 
   has_many :pieces
   # has_many :user_games
-  after_create :set_up_board
 
-  attr_accessor :available_squares
+  after_create :render_pieces_on_board
 
-  def set_up_board
+  def render_pieces_on_board
+    add_white_pieces
+    add_black_pieces
+  end
 
-    available_squares = []
+  def add_white_pieces
+    add_piece_row(7, 'white')
+    add_pawns(6, 'white')
+  end
 
-    # WHITE PIECES
-      # Pawns
-      (0..7).each do |x|
-        Pawn.create(x_position: x, y_position: 6, user_id: white_player_id, game_id: id, color: 'white')
-      end
+  def add_black_pieces
+    add_piece_row(0, 'black')
+    add_pawns(1, 'black')
+  end
 
-      # Rooks
-      [0, 7].each do |x|
-        Rook.create(x_position: x, y_position: 7, user_id: white_player_id, game_id: id, color: 'white')
-      end
+  def add_piece_row(row, color)
+    add_rook(row, 0, color)
+    add_rook(row, 7, color)
 
-      # Knights
-      [1, 6].each do |x|
-        Knight.create(x_position: x, y_position: 7, user_id: white_player_id, game_id: id, color: 'white')
-      end
+    add_knight(row, 1, color)
+    add_knight(row, 6, color)
 
-      # Bishops
-      [2, 5].each do |x|
-        Bishop.create(x_position: x, y_position: 7, user_id: white_player_id, game_id: id, color: 'white')
-      end
+    add_bishop(row, 2, color)
+    add_bishop(row, 5, color)
 
-      # Queen
-      Queen.create(x_position: 3, y_position: 7, user_id: white_player_id, game_id: id, color: 'white')
+    add_queen(row, 3, color)
+    add_king(row, 4, color)
+  end
 
-      #King
-      King.create(x_position: 4, y_position: 7, user_id: white_player_id, game_id: id, color: 'white')
+  def add_pawns(row, color)
+    8.times do |col|
+      add_pawn(row, col, color)
+    end
+  end
+
+  def add_rook(row, col, color)
+    Rook.create(x_position: col, y_position: row, game_id: id, color: color)
+  end
+
+  def add_knight(row, col, color)
+    Knight.create(x_position: col, y_position: row, game_id: id, color: color)
+  end
+
+  def add_bishop(row, col, color)
+    Bishop.create(x_position: col, y_position: row, game_id: id, color: color)
+  end
+
+  def add_queen(row, col, color)
+    Queen.create(x_position: col, y_position: row, game_id: id, color: color)
+  end
+
+  def add_king(row, col, color)
+    King.create(x_position: col, y_position: row, game_id: id, color: color)
+  end
+
+  def add_pawn(row, col, color)
+    # Pawn.create(x_position: col, y_position: row, game_id: id, color: color)
+    Pawn.create(x_position: col, y_position: row, game_id: id, color: color)
   end
 end

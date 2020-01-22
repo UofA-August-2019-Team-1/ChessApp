@@ -11,7 +11,7 @@ class GamesController < ApplicationController
     end
 
     def create
-      @game = current_user.games.create(:name => game_params[:name], :white_player_id => current_user.id)
+      @game = Game.create(:name => game_params[:name], :white_player_id => current_user.id)
 
       if @game.valid?
         redirect_to game_path(@game)
