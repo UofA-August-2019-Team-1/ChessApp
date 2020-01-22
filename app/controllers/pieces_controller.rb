@@ -1,40 +1,44 @@
 class PiecesController < ApplicationController
-  before_action :find_piece,:verify_two_players, :verify_player_turn, :verify_valid_move
+  # before_action :find_piece,:verify_two_players, :verify_player_turn, :verify_valid_move
 
   def update
-    @game = @piece.game
-    is_captured
-    if params[:piece][:type] == "Queen" || params[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
-      @piece.update_attributes(type: params[:piece][:type])
-    elsif @piece.type == "King" && @piece.legal_to_castle?(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
-      @piece.castle(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
-    else
-      @piece.update_attributes(piece_params.merge(move_number: @piece.move_number + 1))
-    end
-  end
+    @piece = Piece.find(params[:id])
+    @piece.update_attributes(y_position: 1)
+    redirect_to game_path(@piece.game)
 
-    king_opp = @game.pieces.where(:type =>"King").where.not(:user_id => @game.turn_user_id)[0]
-    king_current = @game.pieces.where(:type =>"King").where(:user_id => @game.turn_user_id)[0]
-    game_end = false
-    if king_opp.check?(king_opp.x_coord, king_opp.y_coord).present?
-      if king_opp.find_threat_and_determine_checkmate
-        king_opp.update_winner
-        king_current.update_loser
-        game_end = true
-      else
-        king_opp.update_attributes(king_check: 1)
-      end
-    elsif king_opp.stalemate?
-      @game.update_attributes(state: "end")
-      game_end = true
-    end
-    if game_end == false && !(@piece.type == "Pawn" && @piece.pawn_promotion?)
-      update_moves
-      switch_turns
-      render json: {}, status: 200
-    else
-      render json: {}, status: 201
-    end
+  #   @game = @piece.game
+  #   is_captured
+  #   if params[:piece][:type] == "Queen" || params[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
+  #     @piece.update_attributes(type: params[:piece][:type])
+  #   elsif @piece.type == "King" && @piece.legal_to_castle?(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
+  #     @piece.castle(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
+  #   else
+  #     @piece.update_attributes(piece_params.merge(move_number: @piece.move_number + 1))
+  #   end
+  # end
+  #
+  #   king_opp = @game.pieces.where(:type =>"King").where.not(:user_id => @game.turn_user_id)[0]
+  #   king_current = @game.pieces.where(:type =>"King").where(:user_id => @game.turn_user_id)[0]
+  #   game_end = false
+  #   if king_opp.check?(king_opp.x_coord, king_opp.y_coord).present?
+  #     if king_opp.find_threat_and_determine_checkmate
+  #       king_opp.update_winner
+  #       king_current.update_loser
+  #       game_end = true
+  #     else
+  #       king_opp.update_attributes(king_check: 1)
+  #     end
+  #   elsif king_opp.stalemate?
+  #     @game.update_attributes(state: "end")
+  #     game_end = true
+  #   end
+  #   if game_end == false && !(@piece.type == "Pawn" && @piece.pawn_promotion?)
+  #     update_moves
+  #     switch_turns
+  #     render json: {}, status: 200
+  #   else
+  #     render json: {}, status: 201
+  #   end
   end
 
   private
