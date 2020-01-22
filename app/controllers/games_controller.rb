@@ -11,7 +11,9 @@ class GamesController < ApplicationController
     end
 
     def create
-      @game = Game.create(:name => game_params[:name], :white_player_id => current_user.id)
+      @game = Game.create(name: game_params[:name], white_player_id: current_user.id)
+
+      new_game_setup_ids
 
       if @game.valid?
         redirect_to game_path(@game)
@@ -38,5 +40,9 @@ class GamesController < ApplicationController
 
     def game_params
       params.require(:game).permit(:name)
+    end
+
+    def new_game_setup_ids
+      @game.pieces.where(color: 'white').update_all(user_id: @game.white_player_id)
     end
 end
