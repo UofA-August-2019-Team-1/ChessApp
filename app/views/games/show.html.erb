@@ -6,6 +6,11 @@
   black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
 </div>
 
+<div>
+  selected_piece: <%= @game.selected_piece_id %>
+
+</div>
+
 <div class="chessboard">
 
   <% for y in 0..7 do %>
@@ -20,9 +25,13 @@
 
       <div class='<%= color %>'>
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
-          <b><%= link_to gamepiece.type, piece_path(gamepiece), :method => :put %></b>
+          <b><%= link_to gamepiece.type, piece_path(gamepiece, :x_pos => x, :y_pos => y), :method => :put %></b>
           <%= gamepiece.color %>
           user_id: <%= gamepiece.user_id %>
+        <% else %>
+        <% if @game.selected_piece_id %>
+        <%= link_to 'space', piece_path(@game.selected_piece_id, :x_pos => x, :y_pos => y), :method => :put %>
+        <% end %>
         <% end %>
       </div>
 

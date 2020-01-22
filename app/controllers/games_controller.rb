@@ -12,7 +12,6 @@ class GamesController < ApplicationController
 
     def create
       @game = Game.create(name: game_params[:name], white_player_id: current_user.id)
-
       new_game_setup_ids
 
       if @game.valid?
@@ -28,7 +27,6 @@ class GamesController < ApplicationController
     end
 
     def update
-      @piece = Piece.find(params[:id])
       redirect_to game_path(@game)
     end
 

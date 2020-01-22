@@ -1,5 +1,8 @@
 class Game < ApplicationRecord
-  attr_accessor :available_squares
+  attr_accessor :available_squares, :selected_piece_id
+
+  # @available_squares = []
+  # @selected_piece = 'haamm'
 
   # belongs_to :user
   # belongs_to :white_player, class_name: "User"
@@ -11,6 +14,7 @@ class Game < ApplicationRecord
   after_create :render_pieces_on_board
 
   def render_pieces_on_board
+    @selected_piece_id = 1
     add_white_pieces
     add_black_pieces
   end

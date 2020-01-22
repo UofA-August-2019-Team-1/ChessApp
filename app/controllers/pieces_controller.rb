@@ -3,7 +3,9 @@ class PiecesController < ApplicationController
 
   def update
     @piece = Piece.find(params[:id])
-    @piece.update_attributes(y_position: 1)
+    @game = @piece.game
+    @game.selected_piece_id = @piece
+    @piece.update_attributes(x_position: params[:x_pos], y_position: params[:y_pos])
     redirect_to game_path(@piece.game)
 
   #   @game = @piece.game
