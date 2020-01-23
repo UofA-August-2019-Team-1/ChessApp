@@ -1,125 +1,32 @@
+<h1><%= @game.name %> </h1>
+<div>
+  white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+</div>
+<div>
+  black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+</div>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>  Welcome to the Game <%= @game.name %>!</title>
-    <style type="text/css">
-    .chessboard-background {
+<div class="chessboard">
 
-    }
-    .chessboard {
-        width: 640px;
-        height: 640px;
-        margin: 20px;
-        outline: 15px solid #333;
-    }
-    .black {
-        float: left;
-        width: 80px;
-        height: 80px;
-        background-color: #999;
-          font-size:50px;
-        text-align:center;
-        display: table-cell;
-        vertical-align:middle;
-    }
-    .white {
-        float: left;
-        width: 80px;
-        height: 80px;
-        background-color: #fff;
-        font-size:50px;
-        text-align:center;
-        display: table-cell;
-        vertical-align:middle;
-    }
-    </style>
-  </head>
-  <body>
-    <br />
-    <h1><%= @game.name %></h1>
-    <div>
-      Black Player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
-    </div>
-    <div>
-       White Player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
-    </div>
-    <br />
+  <% for y in 0..7 do %>
+    <% for x in 0..7 do %>
 
-    <div class="chessboard">
+      <% color = "" %>
+      <% if (y % 2 == 0) %>
+        <% color = (x % 2 == 0) ? "white" : "black" %>
+      <% else %>
+        <% color = (x % 2 == 0) ? "black" : "white" %>
+      <% end %>
 
-      <!-- 1st -->
-      <div class="white">&#9820;</div>
-      <div class="black">&#9822;</div>
-      <div class="white">&#9821;</div>
-      <div class="black">&#9819;</div>
-      <div class="white">&#9818;</div>
-      <div class="black">&#9821;</div>
-      <div class="white">&#9822;</div>
-      <div class="black">&#9820;</div>
-      <!-- 2nd -->
-      <div class="black">&#9821;</div>
-      <div class="white">&#9821;</div>
-      <div class="black">&#9821;</div>
-      <div class="white">&#9821;</div>
-      <div class="black">&#9821;</div>
-      <div class="white">&#9821;</div>
-      <div class="black">&#9821;</div>
-      <div class="white">&#9821;</div>
-      <!-- 3th -->
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <!-- 4st -->
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <!-- 5th -->
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <!-- 6th -->
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <!-- 7th -->
-      <div class="white">&#9817;</div>
-      <div class="black">&#9817;</div>
-      <div class="white">&#9817;</div>
-      <div class="black">&#9817;</div>
-      <div class="white">&#9817;</div>
-      <div class="black">&#9817;</div>
-      <div class="white">&#9817;</div>
-      <div class="black">&#9817;</div>
-      <!-- 8th -->
-      <div class="black">&#9814;</div>
-      <div class="white">&#9816;</div>
-      <div class="black">&#9815;</div>
-      <div class="white">&#9813;</div>
-      <div class="black">&#9812;</div>
-      <div class="white">&#9815;</div>
-      <div class="black">&#9816;</div>
-      <div class="white">&#9814;</div>
-    </div>
-  </body>
-</html>
+      <div class='<%= color %>'>
+        <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
+          <b><%= link_to gamepiece.type, piece_path(gamepiece), :method => :put %></b>
+          <%= gamepiece.color %>
+          user_id: <%= gamepiece.user_id %>
+        <% end %>
+      </div>
+
+    <% end %>
+  <% end %>
+
+</div>

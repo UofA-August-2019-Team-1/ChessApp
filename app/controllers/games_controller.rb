@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :verify_different_user, only:[:join]
 
     def index
-      @games = games_available
+      @games_available = Game.where(:white_player_id => nil).where.not(:black_player_id => nil).or (Game.where.not(:white_player_id => nil).where(:black_player_id => nil))
     end
 
     def new
@@ -11,7 +11,9 @@ class GamesController < ApplicationController
     end
 
     def create
-      @game = current_user.games.create(:name => game_params[:name], :black_player_id => current_user.id)
+      @game = Game.create(name: game_params[:name], white_player_id: current_user.id)
+      new_game_setup_ids
+
       if @game.valid?
         redirect_to root_path
       else
@@ -21,6 +23,7 @@ class GamesController < ApplicationController
 
     def show
       @game = Game.find(params[:id])
+      @pieces = @game.pieces
     end
 
     def update
@@ -33,6 +36,7 @@ class GamesController < ApplicationController
 
       @game.update_attributes(game_params)
       @game.users << current_user
+      @piece = Piece.find(params[:id])
       redirect_to game_path(@game)
     end
 
@@ -49,11 +53,7 @@ class GamesController < ApplicationController
       params.require(:game).permit(:name)
     end
 
-    def games_available
-      available_games = []
-      Game.where(white_player_id: nil).find_each do |game|
-        available_games.push(game)
-      end
-      return available_games
+    def new_game_setup_ids
+      @game.pieces.where(color: 'white').update_all(user_id: @game.white_player_id)
     end
 end
