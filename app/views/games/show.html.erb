@@ -3,7 +3,7 @@
   white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
 </div>
 <div>
-  black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+  black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
 </div>
 
 <div>
@@ -39,5 +39,3 @@
   <% end %>
 
 </div>
-</body>
-</html>

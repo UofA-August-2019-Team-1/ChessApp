@@ -1,7 +1,39 @@
-<h1>Hello World!</h1>
-<h2>Welcome to our Group project!</h2>
-<br />
-<h2>Available Games</h2>
-<% @games_available.each do |game| %>
-  <h4><%= link_to game.name, game_path(game) %></h4>
-<% end %>
+<div class="row">
+  <div class="col-6">
+     <h1 class="text-center space">Available Games</h1>
+     <div class="text-center">
+          <% if @games_available %>
+            <% @games_available.each do |game| %>
+             <br />
+              <div class="text-center">
+                <span class="column">
+                  <h5 class="text-center"><%= game.name %></h5>
+                  <% if game.white_player_id.blank? %>
+                      <%= simple_form_for game, url: game_path(game) do |f| %>
+                        <span class="column turn"><%= f.submit "Join", class: "btn btn-outline-success" %></span>
+                  <% end %>
+                  <% else %>
+                   <%= button_to 'Join Game', game_path(game), method: :patch, class: "btn btn-outline-success" %>
+                  <% end %>
+              </div>
+          <% end %>
+          <%else%>
+            <h3 class="text-center">No games to join :(</h3>
+          <%end%>
+      </div>
+  </div>
+
+  <div class="col-6">
+      <h1 class="text-center space">My Current Games</h1>
+      <div class="text-center">
+            <% if @games_active %>
+              <% @games_active.each do |game| %>
+               <br />
+               <h3><%= link_to game.name, game_path(game) %></h3>
+            <% end %>
+            <%else%>
+              <h3 class="text-center">No games to join :(</h3>
+            <%end%>
+      </div>
+    </div>
+</div>
