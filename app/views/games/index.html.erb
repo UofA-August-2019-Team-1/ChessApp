@@ -1,31 +1,39 @@
- <div class="section">
+<div class="row">
+  <div class="col-6">
      <h1 class="text-center space">Available Games</h1>
-      <div class="text-center">
-          <% if @games.any? %>
-            <% @games.each do |game| %>
+     <div class="text-center">
+          <% if @games_available %>
+            <% @games_available.each do |game| %>
              <br />
               <div class="text-center">
                 <span class="column">
-                <h5 class="text-center"><%= "#{game.name}" %></h5>
+                  <h5 class="text-center"><%= game.name %></h5>
                   <% if game.white_player_id.blank? %>
                       <%= simple_form_for game, url: game_path(game) do |f| %>
-                        <span class="column turn"><%= f.submit "Join Game", class: "btn btn-outline-success" %></span>
-                      <% end %>
-
+                        <span class="column turn"><%= f.submit "Join", class: "btn btn-outline-success" %></span>
+                  <% end %>
                   <% else %>
-                      <%= simple_form_for game, url: game_path(game) do |f| %>
-                         <span class="row turn"><%= f.submit "Join Game", class: "btn btn-outline-success" %>
-                      <% end %>
-
-
-                    <% if ((current_user.id == game.white_player_id) && game.black_player_id.blank?) || ((current_user.id == game.black_player_id) && game.white_player_id.blank?) %>
-                      <%= link_to "Delete", game_path(game), :method => :delete, :class => "delete btn btn-danger", :data => {:confirm => "Are you sure you want to delete this game?"} %>
-                    <% end %></span>
+                   <%= button_to 'Join Game', game_path(game), method: :patch, class: "btn btn-outline-success" %>
                   <% end %>
               </div>
-            <% end %>
+          <% end %>
           <%else%>
             <h3 class="text-center">No games to join :(</h3>
           <%end%>
-        </div>
+      </div>
+  </div>
+
+  <div class="col-6">
+      <h1 class="text-center space">My Current Games</h1>
+      <div class="text-center">
+            <% if @games_active %>
+              <% @games_active.each do |game| %>
+               <br />
+               <h3><%= link_to game.name, game_path(game) %></h3>
+            <% end %>
+            <%else%>
+              <h3 class="text-center">No games to join :(</h3>
+            <%end%>
+      </div>
+    </div>
 </div>
