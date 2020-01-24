@@ -13,7 +13,7 @@
                         <span class="column turn"><%= f.submit "Join", class: "btn btn-outline-success" %></span>
                   <% end %>
                   <% else %>
-                   <%= button_to 'Join Game', game_path(game), method: :patch, class: "btn btn-outline-success" %>
+                   <%= button_to 'Join', game_path(game), method: :patch, class: "btn btn-outline-success" %>
                   <% end %>
               </div>
           <% end %>
@@ -29,7 +29,7 @@
             <% if @games_active %>
               <% @games_active.each do |game| %>
                <br />
-               <h3><%= link_to game.name, game_path(game) %></h3>
+               <h3><%= button_to game.name, game_path(game), class: "btn btn-outline-success" %></h3>
             <% end %>
             <%else%>
               <h3 class="text-center">No games to join :(</h3>
