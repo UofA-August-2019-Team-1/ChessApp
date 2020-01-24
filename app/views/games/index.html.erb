@@ -1,40 +1,43 @@
 <br />
-<div class="row">
+<div class="row margin-bottom">
   <div class="col-6">
      <h1 class="text-center space">Available Games</h1>
      <div class="text-center">
-          <% if @games_available %>
+          <% if @games_available.length > 0 %>
             <% @games_available.each do |game| %>
              <br />
               <div class="text-center">
-                <span class="column">
+                <span class="column turn">
                   <h5 class="text-center"><%= game.name %></h5>
                   <% if game.white_player_id.blank? %>
                       <%= simple_form_for game, url: game_path(game) do |f| %>
-                        <span class="column turn"><%= f.submit "Join", class: "btn btn-outline-success" %></span>
+                      <%= f.submit "Join", class: "btn btn-outline-success" %>
                   <% end %>
                   <% else %>
-                   <%= button_to 'Join', game_path(game), method: :patch, class: "btn btn-outline-success" %>
+                      <%= button_to 'Join', game_path(game), method: :patch, class: "btn btn-outline-success" %>
                   <% end %>
+                </span>
               </div>
-          <% end %>
-          <%else%>
+           <% end %>
+           <%else%>
             <h3 class="text-center">No games to join :(</h3>
           <%end%>
       </div>
   </div>
 
-  <div class="col-6">
-      <h1 class="text-center space">My Current Games</h1>
-      <div class="text-center">
-            <% if @games_active %>
+  <% if current_user %>
+    <div class="col-6">
+        <h1 class="text-center space">My Current Games</h1>
+        <div class="text-center">
+            <% if @games_active.length > 0 %>
               <% @games_active.each do |game| %>
                <br />
-               <h3><%= button_to game.name, game_path(game), method: :patch, class: "btn btn-outline-success" %></h3>
+               <h3><%= button_to game.name, game_path(game), :method => "get", class: "btn btn-outline-success" %></h3>
             <% end %>
             <%else%>
-              <h3 class="text-center">No games to join :(</h3>
+              <h3 class="text-center">I'm playing no games :(</h3>
             <%end%>
+        </div>
       </div>
-    </div>
+    <%end%>
 </div>
