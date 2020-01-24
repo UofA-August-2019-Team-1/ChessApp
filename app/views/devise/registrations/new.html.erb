@@ -1,3 +1,4 @@
+<div class="booyah-box col-10 offset-1">
 <h2>Register</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -20,10 +21,10 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
-
+  <br />
   <div class="actions">
     <%= f.submit "Register" %>
   </div>
 <% end %>
-
+<br />
 <%= render "devise/shared/links" %>
