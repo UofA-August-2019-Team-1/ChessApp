@@ -1,3 +1,4 @@
+<br />
 <h1><%= @game.name %> </h1>
 <div>
   white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>

@@ -1,3 +1,4 @@
+<br />
 <div class="row">
   <div class="col-6">
      <h1 class="text-center space">Available Games</h1>
@@ -29,7 +30,7 @@
             <% if @games_active %>
               <% @games_active.each do |game| %>
                <br />
-               <h3><%= button_to game.name, game_path(game), class: "btn btn-outline-success" %></h3>
+               <h3><%= button_to game.name, game_path(game), method: :patch, class: "btn btn-outline-success" %></h3>
             <% end %>
             <%else%>
               <h3 class="text-center">No games to join :(</h3>
