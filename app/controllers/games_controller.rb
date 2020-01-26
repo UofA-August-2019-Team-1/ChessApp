@@ -5,7 +5,7 @@ class GamesController < ApplicationController
     def index
       if current_user
         #when signed in
-        @games_available = Game.where.not(:black_player_id => current_user.id).or (Game.where.not(:white_player_id => current_user.id))
+        @games_available = Game.where.not(:black_player_id => nil)
         @games_active = Game.where(:black_player_id => current_user.id).or(Game.where(:white_player_id => current_user.id))
       else
         #when not signed in
@@ -31,6 +31,7 @@ class GamesController < ApplicationController
     def show
       @game = Game.find(params[:id])
       @pieces = @game.pieces
+      @selected_piece = @game.selected_piece
     end
 
     def update
@@ -39,6 +40,7 @@ class GamesController < ApplicationController
       @game.update_attributes(black_player_id: current_user.id)
       join_game_setup_ids
       redirect_to game_path(@game)
+      puts "so seductive"
     end
 
     def destroy

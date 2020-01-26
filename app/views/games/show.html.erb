@@ -7,6 +7,13 @@
   black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
 </div>
 
+<div>
+  <% if @selected_piece != nil %>
+    helll
+    <%=  @selected_piece.type %>
+  <% end %>
+</div>
+
 <div class="chessboard">
 
   <% for y in 0..7 do %>
@@ -19,11 +26,17 @@
         <% color = (x % 2 == 0) ? "black" : "white" %>
       <% end %>
 
-      <div class='<%= color %>'>
+      <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
-          <b><%= link_to gamepiece.type, piece_path(gamepiece), :method => :put %></b>
-          <%= gamepiece.color %>
-          user_id: <%= gamepiece.user_id %>
+
+            <div class="piece draggable" data-color="<%= gamepiece.color %>" data-id="<%= gamepiece.id %>">
+              <%= gamepiece.color %> user_id: <%= gamepiece.user_id %>
+            </div>
+
+        <% else %>
+        <% if selected_piece = @pieces.where(id: @game.selected_piece_id).first %>
+        <%= link_to 'space', piece_path(selected_piece, :x_new => x, :y_new => y), :method => :patch %>
+        <% end %>
         <% end %>
       </div>
 
@@ -31,3 +44,32 @@
   <% end %>
 
 </div>
+
+
+<script>
+  $(document).ready(function () {
+    console.log('wtf mate');
+    $(".draggable").draggable({
+      helper: "clone",
+    });
+    $(".droppable").droppable({
+
+      drop: function( event, ui) {
+
+        var id = ui.draggable.data('id')
+        var x = $(this).data('x')
+        var y = $(this).data('y')
+
+        $.ajax({
+          type: 'PUT',
+           url: '/pieces/' + id,
+           dataType: 'json',
+           data: { id: id, x_position: x, y_position: y },
+           success: function(data){
+             location.reload();
+          }
+        });
+      }
+    });
+  });
+</script>
