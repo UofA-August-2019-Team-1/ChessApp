@@ -31,16 +31,21 @@ class GamesController < ApplicationController
     def show
       @game = Game.find(params[:id])
       @pieces = @game.pieces
-      @selected_piece = @game.selected_piece
     end
 
     def update
       #joining game
       @game = Game.find(params[:id])
-      @game.update_attributes(black_player_id: current_user.id)
-      join_game_setup_ids
-      redirect_to game_path(@game)
-      puts "so seductive"
+      @selected_piece = @pieces.where(id: @game.selected_piece_id).first
+
+      if @game.black_player_id == nil
+        @game.update_attributes(black_player_id: current_user.id)
+        join_game_setup_ids
+        redirect_to game_path(@game)
+      else
+
+      end
+
     end
 
     def destroy

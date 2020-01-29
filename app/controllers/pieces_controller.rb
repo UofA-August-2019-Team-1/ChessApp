@@ -5,7 +5,7 @@ class PiecesController < ApplicationController
 
     @piece = Piece.find(params[:id])
     @game = @piece.game
-    @game.selected_piece_id = @piece.id
+    @selected_piece_id = @piece.id
     # x_up = params[:x_new]
     # @piece.update_attributes(x_position: params[:x_new], y_position: 4)
     redirect_to game_path(@game)
