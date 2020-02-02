@@ -4,12 +4,10 @@ class PiecesController < ApplicationController
   def update
 
     @piece = Piece.find(params[:id])
-    
+
     if @piece.selected != true
-      puts 'nooooo'
       @piece.update_attributes(selected: true)
     else
-      puts 'yes'
       @piece.update_attributes(x_position: params[:x], y_position: params[:y])
       @piece.update_attributes(selected: false)
     end
