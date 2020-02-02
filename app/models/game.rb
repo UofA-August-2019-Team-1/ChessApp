@@ -70,4 +70,45 @@ class Game < ApplicationRecord
     # Pawn.create(x_position: col, y_position: row, game_id: id, color: color)
     Pawn.create(x_position: col, y_position: row, game_id: id, color: color)
   end
+ 
+  
+  def check?(color)
+    black_king = game.pieces.find_by(color: "black", type: "King")
+    white_king = game.pieces.find_by(color: "white", type: "King")
+    
+    black_piece = game.pieces.where(color: "black")
+    white_piece = game.pieces.where(color: "white")
+
+    if color == "white"
+      white_piece.each do |piece|
+        if white_piece.pawns.valid_move?(black_king.x_place, black_king.y_place)||
+          white_piece.queens.valid_move?(black_king.x_place, black_king.y_place) ||
+          white_piece.rooks.valid_move?(black_king.x_place, black_king.y_place) ||
+          white_piece.knights.valid_move?(black_king.x_place, black_king.y_place) ||
+          white_piece.bishops.valid_move?(black_king.x_place, black_king.y_place) ||
+          white_piece.kings.valid_move?(black_king.x_place, black_king.y_place)
+          return true
+        else
+          return false
+        end
+      end
+    end
+
+    if color == "black"
+      black_piece.each do |piece|
+        if black_piece.pawns.valid_move?(white_king.x_place, white_king.y_place)||
+          black_piece.queens.valid_move?(white_king.x_place, white_king.y_place) ||
+          black_piece.rooks.valid_move?(white_king.x_place, white_king.y_place) ||
+          black_piece.knights.valid_move?(white_king.x_place, white_king.y_place) ||
+          black_piece.bishops.valid_move?(white_king.x_place, white_king.y_place) ||
+          black_piece.kings.valid_move?(white_king.x_place, white_king.y_place)
+          return true
+        else
+          return false
+        end
+      end
+    end
+  end
+
+
 end
