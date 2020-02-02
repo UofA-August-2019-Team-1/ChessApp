@@ -4,12 +4,8 @@ class GamesController < ApplicationController
 
     def index
       if current_user
-        #when signed in
-        @games_available = Game.where.not(:black_player_id => nil)
+        @games_available = Game.where.not(:black_player_id => current_user.id).or (Game.where.not(:white_player_id => current_user.id))
         @games_active = Game.where(:black_player_id => current_user.id).or(Game.where(:white_player_id => current_user.id))
-      else
-        #when not signed in
-        @games_available = Game.where.not(:black_player_id => nil).or(Game.where.not(:white_player_id => nil))
       end
     end
 
