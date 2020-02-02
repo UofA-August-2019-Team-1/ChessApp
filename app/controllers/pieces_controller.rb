@@ -1,13 +1,14 @@
 class PiecesController < ApplicationController
   # before_action :find_piece, :verify_two_players, :verify_player_turn, :verify_valid_move
+  before_action :find_piece, :verify_two_players, :verify_player_turn
 
   def update
 
-    @piece = Piece.find(params[:id])
-
     if @piece.selected != true
+      #Selecing a piece
       @piece.update_attributes(selected: true)
     else
+      #Selecing a space
       @piece.update_attributes(x_position: params[:x], y_position: params[:y])
       @piece.update_attributes(selected: false)
     end
@@ -52,12 +53,11 @@ class PiecesController < ApplicationController
   private
 
   def verify_two_players
-    return if @game.black_player_user_id && @game.white_player_user_id
+    return if @game.black_player_id && @game.white_player_id
     respond_to do |format|
       format.json {render :json => { message: "Need to wait for second player!", class: "alert alert-warning"}, status: 422}
     end
   end
-
 
   def switch_turns
     if @game.white_player_user_id == @game.turn_user_id
@@ -86,12 +86,19 @@ class PiecesController < ApplicationController
 
   def verify_player_turn
     return if correct_turn? &&
-    ((@piece.game.white_player_user_id == current_user.id && @piece.white?) ||
-    (@piece.game.black_player_user_id == current_user.id && @piece.black?))
+    ((@piece.game.white_player_id == current_user.id && @piece.color == "white") ||
+    (@piece.game.black_player_id == current_user.id && @piece.color == "black"))
     respond_to do |format|
       format.json {render :json => { message: "Not yet your turn!", class: "alert alert-warning"}, status: 422}
     end
   end
+
+  # def verify_player_turn
+  #   return if correct_turn?
+  #   respond_to do |format|
+  #     format.json {render :json => { message: "Not yet your turn!", class: "alert alert-warning"}, status: 422}
+  #   end
+  # end
 
   def correct_turn?
     @piece.game.turn_user_id == current_user.id

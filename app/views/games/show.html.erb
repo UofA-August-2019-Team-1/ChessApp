@@ -1,10 +1,16 @@
-<br />
-<h1><%= @game.name %> </h1>
+<h3><%= @game.name %> </h3>
 <div>
   white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
-</div>
-<div>
+  <br />
   black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
+  <br />
+  <% if @game.turn_user_id == @game.white_player_id %>
+    White's Turn
+  <% elsif @game.turn_user_id == @game.black_player_id %>
+    Black's Turn
+  <% else %>
+    Unknown Turn
+  <% end %>
 </div>
 
 <div class="chessboard">
@@ -26,13 +32,13 @@
             <%= link_to piece_path(gamepiece, :x => x, :y => y), :method => :patch do %>
               <div class="piece">
                 <%= gamepiece.type %>
-                <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+                <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
               </div>
             <% end %>
           <% else %>
             <div class="piece">
               <%= gamepiece.type %>
-              <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+              <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
             </div>
           <% end %>
 

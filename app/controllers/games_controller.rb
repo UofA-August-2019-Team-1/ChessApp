@@ -3,10 +3,13 @@ class GamesController < ApplicationController
   before_action :verify_different_user, only:[:join]
 
     def index
+      @games_available = Game.where(:black_player_id => nil).or (Game.where(:white_player_id => nil))
+
       if current_user
         @games_available = Game.where.not(:black_player_id => current_user.id).or (Game.where.not(:white_player_id => current_user.id))
         @games_active = Game.where(:black_player_id => current_user.id).or(Game.where(:white_player_id => current_user.id))
       end
+
     end
 
     def new
@@ -14,7 +17,7 @@ class GamesController < ApplicationController
     end
 
     def create
-      @game = Game.create(name: game_params[:name], white_player_id: current_user.id)
+      @game = Game.create(name: game_params[:name], white_player_id: current_user.id, turn_user_id: current_user.id)
       new_game_setup_ids
 
       if @game.valid?
