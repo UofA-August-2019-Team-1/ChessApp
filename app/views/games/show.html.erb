@@ -22,8 +22,9 @@
       <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
             <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
-              <%= gamepiece.type %>
-              <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+              <div class="piece">
+                <%= gamepiece.type %> <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+              </div>
             <% else %>
               <div class="piece" data-id="<%= gamepiece.id %>" data-x="<%= x %>" data-y="<%= y %>">
                 <%= link_to gamepiece.type, piece_path(gamepiece, :x => x, :y => y), :method => :patch %>

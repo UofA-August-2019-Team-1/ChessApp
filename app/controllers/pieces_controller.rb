@@ -4,9 +4,7 @@ class PiecesController < ApplicationController
   def update
 
     @piece = Piece.find(params[:id])
-
-
-
+    
     if @piece.selected != true
       puts 'nooooo'
       @piece.update_attributes(selected: true)
