@@ -7,14 +7,6 @@
   black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
 </div>
 
-<div>
-  <%= @selected_piece_id %>
-  <% if @selected_piece != nil %>
-    helll
-    <%=  @selected_piece.type %>
-  <% end %>
-</div>
-
 <div class="chessboard">
 
   <% for y in 0..7 do %>
@@ -29,16 +21,20 @@
 
       <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
-
-            <div class="draggable droppable" data-id="<%= gamepiece.id %>" data-x="<%= x %>" data-y="<%= y %>">
-              <%= link_to gamepiece.type, piece_path(gamepiece, :x_new => x, :y_new => y), :method => :patch %>
-              <%= gamepiece.color %> user_id: <%= gamepiece.user_id %>
-            </div>
-
+            <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
+              <%= gamepiece.type %>
+              <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+            <% else %>
+              <div class="piece" data-id="<%= gamepiece.id %>" data-x="<%= x %>" data-y="<%= y %>">
+                <%= link_to gamepiece.type, piece_path(gamepiece, :x => x, :y => y), :method => :patch %>
+                <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected %>
+              </div>
+            <% end %>
         <% else %>
-        <% if selected_piece = @pieces.where(id: @game.selected_piece_id).first %>
-        <%= link_to 'space', piece_path(selected_piece, :x_new => x, :y_new => y), :method => :patch %>
-        <% end %>
+
+          <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
+            <%= link_to 'space', piece_path(selected_piece, :x => x, :y => y), :method => :patch %>
+          <% end %>
         <% end %>
       </div>
 
@@ -46,6 +42,8 @@
   <% end %>
 
 </div>
+
+<!-- ///drag-drop unimplemented -->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>

@@ -1,26 +1,22 @@
 class PiecesController < ApplicationController
-  # before_action :find_piece,:verify_two_players, :verify_player_turn, :verify_valid_move
+  # before_action :find_piece, :verify_two_players, :verify_player_turn, :verify_valid_move
 
   def update
 
     @piece = Piece.find(params[:id])
-    @game = @piece.game
-    @selected_piece_id = @piece.id
-    # x_up = params[:x_new]
-    # @piece.update_attributes(x_position: params[:x_new], y_position: 4)
-    redirect_to game_path(@game)
 
-    # if @game.selected_piece == nil
-    #   @game.selected_piece = @piece
-    #   puts 'new orleans'
-    #   puts @game.name
-    #   puts @game.selected_piece
-    #   redirect_to game_path(@game)
-    # else
-    #   puts 'old orleans'
-    #   @game.selected_piece.update_attributes(x_position: params[:x_new], y_position: params[:y_new])
-    #   redirect_to game_path(@game)
-    # end
+
+
+    if @piece.selected != true
+      puts 'nooooo'
+      @piece.update_attributes(selected: true)
+    else
+      puts 'yes'
+      @piece.update_attributes(x_position: params[:x], y_position: params[:y])
+      @piece.update_attributes(selected: false)
+    end
+
+    redirect_to game_path(@piece.game)
 
   #   @game = @piece.game
   #   is_captured
