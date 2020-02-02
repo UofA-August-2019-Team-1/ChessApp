@@ -11,6 +11,7 @@ class PiecesController < ApplicationController
       #Selecing a space
       @piece.update_attributes(x_position: params[:x], y_position: params[:y])
       @piece.update_attributes(selected: false)
+      switch_turns
     end
 
     redirect_to game_path(@piece.game)
@@ -60,10 +61,10 @@ class PiecesController < ApplicationController
   end
 
   def switch_turns
-    if @game.white_player_user_id == @game.turn_user_id
-      @game.update_attributes(turn_user_id:@game.black_player_user_id)
-    elsif @game.black_player_user_id == @game.turn_user_id
-      @game.update_attributes(turn_user_id:@game.white_player_user_id)
+    if @game.white_player_id == @game.turn_user_id
+      @game.update_attributes(turn_user_id: @game.black_player_id)
+    elsif @game.black_player_id == @game.turn_user_id
+      @game.update_attributes(turn_user_id: @game.white_player_id)
     end
   end
 
@@ -92,13 +93,6 @@ class PiecesController < ApplicationController
       format.json {render :json => { message: "Not yet your turn!", class: "alert alert-warning"}, status: 422}
     end
   end
-
-  # def verify_player_turn
-  #   return if correct_turn?
-  #   respond_to do |format|
-  #     format.json {render :json => { message: "Not yet your turn!", class: "alert alert-warning"}, status: 422}
-  #   end
-  # end
 
   def correct_turn?
     @piece.game.turn_user_id == current_user.id
