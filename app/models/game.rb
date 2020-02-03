@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
   attr_accessor :available_squares
+  attr_accessor :selected_piece
 
   # belongs_to :user
   # belongs_to :white_player, class_name: "User"

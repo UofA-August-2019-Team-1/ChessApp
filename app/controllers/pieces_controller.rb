@@ -1,12 +1,21 @@
 class PiecesController < ApplicationController
-  # before_action :find_piece,:verify_two_players, :verify_player_turn, :verify_valid_move
+  # before_action :find_piece, :verify_two_players, :verify_player_turn, :verify_valid_move
+  before_action :find_piece, :verify_two_players
 
   def update
-    @piece = Piece.find(params[:id])
-    @piece.update_attributes(y_position: 1)
+
+    if @piece.selected != true
+      #Selecing a piece
+      @piece.update_attributes(selected: true)
+    else
+      #Selecing a destination
+      @piece.update_attributes(x_position: params[:x], y_position: params[:y])
+      @piece.update_attributes(selected: false)
+      switch_turns
+    end
+
     redirect_to game_path(@piece.game)
 
-  #   @game = @piece.game
   #   is_captured
   #   if params[:piece][:type] == "Queen" || params[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
   #     @piece.update_attributes(type: params[:piece][:type])
@@ -44,18 +53,17 @@ class PiecesController < ApplicationController
   private
 
   def verify_two_players
-    return if @game.black_player_user_id && @game.white_player_user_id
+    return if @game.black_player_id && @game.white_player_id
     respond_to do |format|
       format.json {render :json => { message: "Need to wait for second player!", class: "alert alert-warning"}, status: 422}
     end
   end
 
-
   def switch_turns
-    if @game.white_player_user_id == @game.turn_user_id
-      @game.update_attributes(turn_user_id:@game.black_player_user_id)
-    elsif @game.black_player_user_id == @game.turn_user_id
-      @game.update_attributes(turn_user_id:@game.white_player_user_id)
+    if @game.white_player_id == @game.turn_user_id
+      @game.update_attributes(turn_user_id: @game.black_player_id)
+    elsif @game.black_player_id == @game.turn_user_id
+      @game.update_attributes(turn_user_id: @game.white_player_id)
     end
   end
 
@@ -78,8 +86,8 @@ class PiecesController < ApplicationController
 
   def verify_player_turn
     return if correct_turn? &&
-    ((@piece.game.white_player_user_id == current_user.id && @piece.white?) ||
-    (@piece.game.black_player_user_id == current_user.id && @piece.black?))
+    ((@piece.game.white_player_id == current_user.id && @piece.color == "white") ||
+    (@piece.game.black_player_id == current_user.id && @piece.color == "black"))
     respond_to do |format|
       format.json {render :json => { message: "Not yet your turn!", class: "alert alert-warning"}, status: 422}
     end

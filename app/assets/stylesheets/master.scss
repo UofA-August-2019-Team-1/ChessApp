@@ -24,3 +24,18 @@
     display: table-cell;
     vertical-align:middle;
 }
+
+.margin-bottom {
+  margin-bottom: 70px;
+}
+
+.piece {
+  background-color: lavender;
+}
+
+.space-available {
+  background-color: yellow;
+  width: 100%;
+  height: 100%;
+  opacity: 30%;
+}
