@@ -50,10 +50,9 @@ class Piece < ApplicationRecord
     false
   end
 
-
   def vertical_obstruction?(x, y)
-    y_min = [y_place, y].min
-    y_max = [y_place, y].max
+    y_min = [y_position, y].min
+    y_max = [y_position, y].max
     (y_min + 1...y_max - 1).each do |y_coord|
       return true if place_occupied?(x, y_coord)
     end
@@ -61,26 +60,34 @@ class Piece < ApplicationRecord
   end
 
   def horizontal_obstruction?(x, y)
-    x_min = [x_place, x].min
-    x_max = [x_place, x].max
-    (x_min + 1...x_max - 1).each do |x_place|
-      return true if place_occupied?(x_place, y)
+    x_min = [x_position, x].min
+    x_max = [x_position, x].max
+    (x_min + 1...x_max - 1).each do |x_coord|
+      return true if place_occupied?(x_coord, y)
     end
     false
   end
 
   def diagonal_obstruction?(x, y)
-    x_direction = x_place < x ? 1 : -1
-    y_direction = y_place < y ? 1 : -1
+    x_direction = x_position < x ? 1 : -1
+    y_direction = y_position < y ? 1 : -1
 
-    current_x = x_place + x_direction
-    current_y = y_place + y_direction
+    current_x = x_position + x_direction
+    current_y = y_position + y_direction
     while current_x != x && current_y != y
       return true if place_occupied?(current_x, current_y)
       current_x += x_direction
       current_y += y_direction
     end
     false
+  end
+
+  def place_occupied?(x, y)
+    if game.pieces.where("(x_position = ? AND y_position = ?)", x, y).any?
+      return true
+    else
+      return false
+    end
   end
 
   # determines horizontal distance travelled by piece

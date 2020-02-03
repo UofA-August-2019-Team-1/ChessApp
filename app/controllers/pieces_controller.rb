@@ -8,7 +8,7 @@ class PiecesController < ApplicationController
       #Selecing a piece
       @piece.update_attributes(selected: true)
     else
-      #Selecing a space
+      #Selecing a destination
       @piece.update_attributes(x_position: params[:x], y_position: params[:y])
       @piece.update_attributes(selected: false)
       switch_turns
