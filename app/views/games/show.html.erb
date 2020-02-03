@@ -28,6 +28,8 @@
       <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
         <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
 
+        <!-- Render Piece -->
+
           <% if !@pieces.where("(selected = ?)", true).any? %>
             <%= link_to piece_path(gamepiece, :x => x, :y => y), :method => :patch do %>
               <div class="piece">
@@ -41,16 +43,17 @@
               <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
             </div>
           <% end %>
-
         <% else %>
 
+        <!-- Render Hightlighted Space -->
+
           <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
-            <%= link_to piece_path(selected_piece, :x => x, :y => y), :method => :patch do %>
-              <div class="space-available">
-              </div>
+            <% if selected_piece.valid_move?(x, y) %>
+              <%= link_to piece_path(selected_piece, :x => x, :y => y), :method => :patch do %>
+                <div class="space-available"></div>
+              <% end %>
             <% end %>
           <% end %>
-
         <% end %>
       </div>
 

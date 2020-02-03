@@ -1,6 +1,6 @@
 class PiecesController < ApplicationController
   # before_action :find_piece, :verify_two_players, :verify_player_turn, :verify_valid_move
-  before_action :find_piece, :verify_two_players, :verify_player_turn
+  before_action :find_piece, :verify_two_players
 
   def update
 
@@ -16,7 +16,6 @@ class PiecesController < ApplicationController
 
     redirect_to game_path(@piece.game)
 
-  #   @game = @piece.game
   #   is_captured
   #   if params[:piece][:type] == "Queen" || params[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
   #     @piece.update_attributes(type: params[:piece][:type])
