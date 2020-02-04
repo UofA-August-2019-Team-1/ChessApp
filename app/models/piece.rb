@@ -51,19 +51,23 @@ class Piece < ApplicationRecord
   end
 
   def vertical_obstruction?(x, y)
-    y_min = [y_position, y].min
-    y_max = [y_position, y].max
-    (y_min + 1...y_max - 1).each do |y_coord|
-      return true if place_occupied?(x, y_coord)
+    y_direction = y_position < y ? 1 : -1
+
+    current_y = y_position + y_direction
+    while current_y != y
+      return true if place_occupied?(x, current_y)
+      current_y += y_direction
     end
     false
   end
 
   def horizontal_obstruction?(x, y)
-    x_min = [x_position, x].min
-    x_max = [x_position, x].max
-    (x_min + 1...x_max - 1).each do |x_coord|
-      return true if place_occupied?(x_coord, y)
+    x_direction = x_position < x ? 1 : -1
+
+    current_x = x_position + x_direction
+    while current_x != x
+      return true if place_occupied?(current_x, y)
+      current_x += x_direction
     end
     false
   end
