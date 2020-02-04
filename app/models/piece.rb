@@ -115,4 +115,16 @@ class Piece < ApplicationRecord
   def black?
     !white?
   end
+
+  def find_capture_piece(x_end, y_end)
+    if self.type == "Pawn"
+      if en_passant?(x_end, y_end)
+        game.pieces.where(y_position: y_position, x_position: x_end, type: "Pawn").first
+      else
+        game.pieces.find_by(x_position: x_end, y_position: y_end)
+      end
+    else
+      game.pieces.where(x_position: x_end, y_position: y_end).first
+    end
+  end
 end

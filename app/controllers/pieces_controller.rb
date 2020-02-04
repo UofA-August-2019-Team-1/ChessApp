@@ -16,8 +16,10 @@ class PiecesController < ApplicationController
 
     redirect_to game_path(@piece.game)
 
+    #######   not yet integrated
+
   #   is_captured
-  #   if params[:piece][:type] == "Queen" || params[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
+  #   if params[:piece][:type] == "Queen" || param33s[:piece][:type] == "Bishop" || params[:piece][:type] == "Knight" || params[:piece][:type] == "Rook"
   #     @piece.update_attributes(type: params[:piece][:type])
   #   elsif @piece.type == "King" && @piece.legal_to_castle?(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
   #     @piece.castle(piece_params[:x_coord].to_i, piece_params[:y_coord].to_i)
