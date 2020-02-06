@@ -1,9 +1,13 @@
 @import "bootstrap";
 
+.stats-board {
+  padding: 12px;
+}
+
 .chessboard {
     width: 640px;
     height: 640px;
-    margin: 20px;
+    margin: 12px + 15px;
     outline: 15px solid #333;
 }
 .black {
@@ -31,6 +35,7 @@
 
 .piece {
   background-color: lavender;
+  margin: 2px;
 }
 
 .space-available {

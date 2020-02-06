@@ -1,70 +1,112 @@
-<h3><%= @game.name %> </h3>
-<div>
-  white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
-  <br />
-  black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
-  <br />
-  <% if @game.turn_user_id == @game.white_player_id %>
-    White's Turn
-  <% elsif @game.turn_user_id == @game.black_player_id %>
-    Black's Turn
-  <% else %>
-    Unknown Turn
-  <% end %>
-</div>
-
-<div class="chessboard">
-
-  <% for y in 0..7 do %>
-    <% for x in 0..7 do %>
-
-      <% color = "" %>
-      <% if (y % 2 == 0) %>
-        <% color = (x % 2 == 0) ? "white" : "black" %>
+<div class="row">
+  <div class="col-3">
+    <div class="stats-board">
+      <h3><%= @game.name %> </h3>
+      white player: <%= (@game.white_player_id == nil) ? '...waiting to join' : User.find(@game.white_player_id).email %>
+      <br />
+      black player: <%= (@game.black_player_id == nil) ? '...waiting to join' : User.find(@game.black_player_id).email %>
+      <br />
+      <% if @game.turn_user_id == @game.white_player_id %>
+        White's Turn
+      <% elsif @game.turn_user_id == @game.black_player_id %>
+        Black's Turn
       <% else %>
-        <% color = (x % 2 == 0) ? "black" : "white" %>
+        Unknown Turn
       <% end %>
+      <br />
+      <% if @game.black_player_id != nil %>
+        <%= link_to 'Forefeit Game', forfeit_game_game_path, method: :post, data: {confirm: 'Are you sure you want to forfeit?'} %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="chessboard">
 
-      <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
-        <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
+      <% for y in 0..7 do %>
+        <% for x in 0..7 do %>
 
-        <!-- Render Piece -->
-
-          <% if !@pieces.where("(selected = ?)", true).any? %>
-            <%= link_to piece_path(gamepiece, :x => x, :y => y), :method => :patch do %>
-              <div class="piece">
-                <%= gamepiece.type %>
-                <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
-              </div>
-            <% end %>
+          <% color = "" %>
+          <% if (y % 2 == 0) %>
+            <% color = (x % 2 == 0) ? "white" : "black" %>
           <% else %>
-            <div class="piece">
-              <%= gamepiece.type %>
-              <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
-            </div>
+            <% color = (x % 2 == 0) ? "black" : "white" %>
           <% end %>
-        <% else %>
 
-        <!-- Render Hightlighted Space -->
+          <div class='droppable <%= color %>' data-x="<%= x %>" data-y="<%= y %>">
+            <% if gamepiece = @pieces.where("(x_position = ? AND y_position = ?)", x, y).first %>
 
-          <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
-            <% if selected_piece.valid_move?(x, y) %>
-              <%= link_to piece_path(selected_piece, :x => x, :y => y), :method => :patch do %>
-                <div class="space-available"></div>
+            <!-- Render Piece -->
+
+              <% if !@pieces.where("(selected = ?)", true).any? %>
+                <%= link_to piece_path(gamepiece, :x => x, :y => y), :method => :patch do %>
+                  <div class="piece">
+                    <%= gamepiece.type %>
+                    <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="piece">
+                  <%= gamepiece.type %>
+                  <%= gamepiece.color %> user id: <%= gamepiece.user_id %> <%= gamepiece.selected ? 'chosen' : '' %>
+                </div>
+              <% end %>
+            <% else %>
+
+            <!-- Render Hightlighted Space -->
+
+              <% if selected_piece = @pieces.where("(selected = ?)", true).first %>
+                <% if selected_piece.valid_move?(x, y) %>
+                  <%= link_to piece_path(selected_piece, :x => x, :y => y), :method => :patch do %>
+                    <div class="space-available"></div>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
+          </div>
+
         <% end %>
-      </div>
+      <% end %>
 
-    <% end %>
-  <% end %>
-
+    </div>
+  </div>
 </div>
+
 
 <!-- ///drag-drop unimplemented -->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function () {
+<% if @game.status == "Over" %>
+    $('#myModal').modal('show');
+<% end %>
+});
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Game Over!</h4>
+      </div>
+      <div class="modal-body">
+        Game Status: <%= @game.status %>
+        </br>
+        <% if @game.winner_id == 0 %>
+          Winner: <strong>"TIED GAME!"</strong>
+        <% else %>
+          <% if @game.winner_id %>
+            Winner: <strong><%= User.find(@game.winner_id).email %></strong>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <%= link_to 'Start a new game!', game_path(@game), :method => :delete, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 
 <script>

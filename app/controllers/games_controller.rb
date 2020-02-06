@@ -18,6 +18,7 @@ class GamesController < ApplicationController
 
     def create
       @game = Game.create(name: game_params[:name], white_player_id: current_user.id, turn_user_id: current_user.id)
+      @game.update_attributes(status: 'active')
       new_game_setup_ids
 
       if @game.valid?
@@ -40,11 +41,24 @@ class GamesController < ApplicationController
       redirect_to game_path(@game)
     end
 
+
+    def forfeit_game
+      @game = Game.find(params[:id])
+
+      if @game.black_player_id == current_user.id
+        @game.update_attributes(status: 'Over', winner_id: @game.white_player_id)
+      else
+        @game.update_attributes(status: 'Over', winner_id: @game.black_player_id)
+      end
+
+      redirect_to game_path(@game.id)
+    end
+
     def destroy
       @game = Game.find_by_id(params[:id])
       @game.pieces.destroy_all
       @game.destroy
-      redirect_to games_path
+      redirect_to root_path
     end
 
 
