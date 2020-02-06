@@ -27,5 +27,10 @@ class Pawn < Piece
     other_piece = game.pieces.where(y_position: y_position, x_position: new_x_coord, type: "Pawn").first
     return false if other_piece.nil?
     return true
-   end
+  end
+
+  def pawn_promotion?
+    pawn = game.pieces.where(:type =>"Pawn").where(:user_id => game.turn_user_id)[0]
+    (y_coord == 8 && !white?) || (y_coord == 1 && white?)
+  end
 end
